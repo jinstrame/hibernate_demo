@@ -1,9 +1,10 @@
 package com.epam.research;
 
-import com.epam.research.dao.CarDAO;
-import com.epam.research.dao.DriverDAO;
-import com.epam.research.entities.Car;
-import com.epam.research.entities.Driver;
+import com.epam.research.hibernate.entities.Employee;
+import com.epam.research.hibernate.entities.Employer;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.time.ZonedDateTime;
-import java.util.HashSet;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -20,29 +20,46 @@ import java.util.HashSet;
 public class HibernateApplicationTests {
 
 	@Resource
-	private CarDAO carDAO;
+	private SessionFactory sessionFactory;
 
-    @Resource
-    private DriverDAO driverDAO;
-
+	@SuppressWarnings("unchecked")
 	@Test
 	public void contextLoads() {
-		Car car = new Car();
-		Driver driver = new Driver();
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 
-		driver.setAge(20);
-		driver.setFirstName("John");
-		driver.setLastName("Smith");
-		driver.setDriver_id(7896);
-        
-        car.setNumber("S501W");
-        car.setId(12);
 
-        driverDAO.save(driver);
-        carDAO.save(car);
+		Employer employer = new Employer();
+		employer.setCompany("epam");
+		session.save(employer);
 
-        carDAO.list().forEach(System.out::println);
+		Employee employee = new Employee();
+		employee.setEmployer(employer);
+		employee.setName("Eugene");
+		session.save(employee);
+		session.save(employer);
+		tx.commit();
 
+		System.out.println("//");
+		System.out.println("//");
+		List<Employee> employees = session.createQuery("from com.epam.research.hibernate.entities.Employee").list();
+		employees.forEach(System.out::println);
+
+
+		System.out.println("//");
+		System.out.println("//");
+		List<Employer> employers = session.createQuery("from com.epam.research.hibernate.entities.Employer").list();
+		employers.forEach(System.out::println);
+
+		System.out.println("//");
+		System.out.println("//");
+		List list = session.createQuery("from com.epam.research.hibernate.entities.Employee where employer_id = 1").list();
+		list.forEach(System.out::println);
+
+
+		System.out.println("//");
+		System.out.println("//");
+		session.close();
 	}
 
 }
