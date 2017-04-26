@@ -53,7 +53,8 @@ public class HibernateApplicationTests {
 
 		System.out.println("//");
 		System.out.println("//");
-		List list = session.createQuery("from com.epam.research.hibernate.entities.Employee where employer_id = 1").list();
+		@SuppressWarnings("JpaQlInspection")
+        List list = session.createQuery("from com.epam.research.hibernate.entities.Employee where employer_id = 1").list();
 		list.forEach(System.out::println);
 
 
