@@ -11,13 +11,16 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.epam.research"/>
 
-    <jdbc:embedded-database id="myDataSource" type="H2">
+    <jdbc:embedded-database id="hibernateDataSource" type="H2">
+    </jdbc:embedded-database>
+
+    <jdbc:embedded-database id="mybatisDataSource" type="H2">
     </jdbc:embedded-database>
 
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="myDataSource" />
+        <property name="dataSource" ref="hibernateDataSource" />
         <property name="packagesToScan" value="com.epam.research" />
         <property name="hibernateProperties">
             <props>
