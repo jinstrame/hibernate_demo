@@ -20,12 +20,12 @@ import java.util.List;
 public class HibernateApplicationTests {
 
 	@Resource
-	private SessionFactory sessionFactory;
+	private SessionFactory hibernateSessionFactory;
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void contextLoads() {
-		Session session = sessionFactory.openSession();
+		Session session = hibernateSessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 
 
