@@ -33,7 +33,7 @@
     </bean>
 
     <bean id="mybatisSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="mybatisDataSource" />
+        <property name="dataSource" ref="mybatisDataSource"/>
     </bean>
 
     <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
@@ -43,7 +43,7 @@
           p:dataSource-ref="mybatisDataSource"/>
 
     <bean id="mybatisSqlSession" class="org.mybatis.spring.SqlSessionTemplate"
-        c:sqlSessionFactory-ref="mybatisSessionFactory"/>
+          c:sqlSessionFactory-ref="mybatisSessionFactory"/>
 
     <!--suppress UnparsedCustomBeanInspection -->
     <mybatis:scan base-package="com.epam.research.mybatis.mappers"/>

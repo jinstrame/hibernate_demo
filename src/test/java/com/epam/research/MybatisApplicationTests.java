@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,6 +40,28 @@ public class MybatisApplicationTests {
 		List<Employer> list = employerMapper.list();
 
 		list.forEach(System.out::println);
+		Employer returnedEmployer = list.stream().findAny().orElseThrow(NoSuchElementException::new);
+
+		System.out.println("//");
+		System.out.println("//");
+
+		Employee employee = new Employee();
+		employee.setName("Eugene");
+		employee.setEmployer(returnedEmployer);
+
+		employeeMapper.create(employee);
+
+		List<Employee> byEmployer = employeeMapper.getByEmployer(returnedEmployer.getId());
+		byEmployer.forEach(System.out::println);
+
+        System.out.println("//");
+        System.out.println("//");
+
+		List<Employee> list1 = employeeMapper.list();
+		list1.forEach(System.out::println);
+
+		System.out.println("//");
+		System.out.println("//");
 	}
 
 }
